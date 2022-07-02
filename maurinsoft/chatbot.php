@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+<!DOCTYPE HTML> 
 	<HTML  ng-app="App" LANG="PT-BR">
 	<head>
 		<meta charset="UTF-8"/>
@@ -15,19 +15,16 @@
 		
 		
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		
-		<link rel="stylesheet" href="/wp-content/plugins/maurinsoft/style.css"/>
+		<link rel="stylesheet" href="/wp-content/plugins/maurinsoft/css/style.css"/>
 		<script src="https://code.angularjs.org/1.6.4/angular.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		<script src="/wp-content/plugins/maurinsoft/js/ctlr_test.js"></script>
 	</head>
-	<body ng-controller="TesteCtrl">
-		<video autoplay loop poster="img/logo.jpg" class="bg_video">
-			<source src="/wp-content/plugins/maurinsoft/video/fundo.webm" type="video/webm">-->
-			<source src="/wp-content/plugins/maurinsoft/video/fundo.mp4" type="video/mp4">
-		</video>	
-		<div class="row ">		  
+	<body ng-controller="TesteCtrl">		
+		<div class="row geral ">					
 			<!--Caixa titulo -->
 			<div class="row  borda_container">
 				<div class="col-xs-2 ">								
@@ -37,8 +34,7 @@
 					<h1 class="titulo">{{app}}</h1>
 				</div>
 			</div>
-			<div class="row separacao">
-			</div>
+			
 			
 			<!--Login -->
 			<div class="row">		
@@ -46,37 +42,38 @@
 			</div>
 
 			<!--Menu Item-->
-			<div class="row ">				
+			<div class="row bloco_dialog">				
 					<div class="col-xs-12 menu">		
-						<div class="row">
+						<div class="row titulo">
 						  <h4 class="menu_titulo">Conversa</h4>
 						</div>
 						
-						<div class="row >						
-						   <textarea type="text"  style=" top:500px;height:200px;width:600px; left:470px;" class="col-md-10" >{{texto}}</textarea>
+						<div class="row textarea" >						
+						   <textarea type="text" >{{texto}}</textarea>
 						</div>
-						<div class="info_help">						
-					   	 <div class="row col-md-12">
-						    <h4>Perguta</h4>
-						 </div>
-						 <div class="row ">
-						    <div class="col-md-8">
-						      <input type="text" value="{{pergunta}}" ng-model="pergunta" name="Pergunta">
-						    </div>
-						    <div class="col-md-2">
-						     <input type="submit" value="Enviar" ng-click="displayResposta()">
-						    </div>						 
-						 </div>
+						<div class="row Pergunta">						
+							<div>
+								<h4>Perguta</h4>
+							</div>	
+							<div class="row Janela">
+								<div class="caixa">
+									<input type="text" value="{{pergunta}}" ng-model="pergunta" name="Pergunta">
+								</div>
+								<div class="botao">
+									<input type="submit" value="Enviar" ng-click="displayResposta()">
+								</div>						 
+							</div>
 						</div>
 					</div>								
 			</div>		
-		</div>
-		<div class="row rodape_container">
+			<div class="row rodape_container">
 			  <div class="row">
-			  <center>{{msg}}</center>
+				<center>{{msg}}</center>
 			  </div>	
 			
-		</div>
-		
+			
+			</div>
+		</div>	
+				
 	</body>
 	</html>
