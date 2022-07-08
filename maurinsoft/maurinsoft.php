@@ -37,17 +37,85 @@ function maurinsoft_admin_menu() {
 	add_filter('template_include', 'my_plugin_templates');
 	add_action( 'admin_enqueue_scripts', 'register_comlink_plugin_scripts' );
 	add_action( 'admin_enqueue_scripts', 'load_maurinsoft_plugin_scripts' );
-	
+	add_menu_page(
+		__( 'Adm Maurinsoft', 'my-textdomain' ), 
+		__( 'Maurinsoft', 'my-textdomain' ),
+		'manage_options', 
+		'maurinsoft-options',
+		'wps_theme_func_hello',
+		'dashicons-schedule',
+        3	
+		);
 
-    add_menu_page(
-        __( 'Adm Maurinsoft', 'my-textdomain' ),
-        __( 'Administração da Maurinsoft', 'my-textdomain' ),
-        'manage_options',
-        'maurinsoft.php',
-        'maurinsoft_admin_page_contents',
-        'dashicons-schedule',
-        3
-    );
+  add_submenu_page( 'maurinsoft-options', 'Chatbot - Teste', 'Teste do chatbot', 'manage_options', 'theme-op-faq', 'wps_theme_func_chatbot');
+  add_submenu_page( 'maurinsoft-options', 'Chatbot - Base Pergunta', 'Base Perguntas', 'manage_options', 'theme-op-settings', 'maurinsoft_basepergunta');	
+  add_submenu_page( 'maurinsoft-options', 'Chatbot - Histórico Pergunta', 'Histórico', 'manage_options', 'maurins_hperg', 'maurinsoft_historico');
+  add_submenu_page( 'maurinsoft-options', 'Chatbot - Base Resposta', 'Base de Resposta', 'manage_options', 'maurins_bresposta', 'wps_theme_func_bresposta');
+  add_submenu_page( 'maurinsoft-options', 'Chatbot - Associação P&R', 'Associação P&R', 'manage_options', 'maurins_presp', 'wps_theme_func_pr');
+  add_submenu_page( 'maurinsoft-options', 'Chatbot - Base Operação', 'Base Operação', 'manage_options', 'maurins_boperacao', 'wps_theme_func_boperacao');
+}
+
+function wps_theme_func_hello(){
+?>
+    <h1><?php esc_html_e( 'Maurinsoft - Manager', 'maurinsoft-plugin-textdomain' ); ?></h1>
+
+<?php	
+        echo '<div class="wrap"><div id="icon-options-general" class="icon32"><br></div></div>';
+		include ("wellcome.php");
+}
+
+function wps_theme_func_chatbot(){
+?>
+    <h1><?php esc_html_e( 'Maurinsoft - Manager', 'maurinsoft-plugin-textdomain' ); ?></h1>
+
+<?php	
+        echo '<div class="wrap"><div id="icon-options-general" class="icon32"><br></div>
+        <h2>Teste de chatbot</h2></div>';
+		include ("chatbot.php");
+}
+
+function maurinsoft_basepergunta() {
+?>
+    <h1><?php esc_html_e( 'Maurinsoft - Manager', 'maurinsoft-plugin-textdomain' ); ?></h1>
+
+<?php
+include "pagina.php"; 
+}
+
+function maurinsoft_historico(){
+?>
+    <h1><?php esc_html_e( 'Maurinsoft - Manager', 'maurinsoft-plugin-textdomain' ); ?></h1>
+
+<?php	
+        echo '<div class="wrap"><div id="icon-options-general" class="icon32"><br></div>';
+		include ("historico.php");
+}
+
+function wps_theme_func_bresposta(){
+?>
+    <h1><?php esc_html_e( 'Maurinsoft - Manager', 'maurinsoft-plugin-textdomain' ); ?></h1>
+
+<?php	
+        echo '<div class="wrap"><div id="icon-options-general" class="icon32"><br></div>';
+		include ("bresposta.php");
+}
+
+function wps_theme_func_pr(){
+	?>
+    <h1><?php esc_html_e( 'Maurinsoft - Manager', 'maurinsoft-plugin-textdomain' ); ?></h1>
+
+<?php	
+        echo '<div class="wrap"><div id="icon-options-general" class="icon32"><br></div>';
+		include ("peresp.php");	
+}
+
+function wps_theme_func_boperacao(){
+?>
+    <h1><?php esc_html_e( 'Maurinsoft - Manager', 'maurinsoft-plugin-textdomain' ); ?></h1>
+<?php	
+        echo '<div class="wrap"><div id="icon-options-general" class="icon32"><br></div>';
+		include ("boperacao.php");	
+
 }
 
 add_action( 'admin_menu', 'maurinsoft_admin_menu' );
@@ -55,6 +123,10 @@ add_action('wp_footer','maurinsoft_rodape'); /*informação adicional do rodape*
 
 
 function funcchatbot(){
+?>
+    <h1><?php esc_html_e( 'Maurinsoft - Manager', 'maurinsoft-plugin-textdomain' ); ?></h1>
+
+<?php	
 	echo("<div>Chat bot online</div>");
 	include ("chatbot.php");
 }	
@@ -71,16 +143,7 @@ function my_plugin_templates( $template ) {
     return $template;
 }
 
-function maurinsoft_admin_page_contents() {
-?>
-    <h1><?php esc_html_e( 'Maurinsoft - Manager', 'maurinsoft-plugin-textdomain' ); ?></h1>
 
-<?php
-include "pagina.php";
-//echo file_get_contents('wp-content/plugins/maurinosoft/pagina.php');
-//echo file_get_contents('pagina.php');
-
-}
 
 function register_maurinsoft_plugin_scripts() {
     //wp_register_style( 'maurinsoft-plugin', plugins_url( 'ddd/css/plugin.css' ) );
