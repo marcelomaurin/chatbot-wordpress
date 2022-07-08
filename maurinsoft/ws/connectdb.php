@@ -1,5 +1,5 @@
 <?php
-	define("HOSTNAME","192.168.0.213");
+	define("HOSTNAME","localhost");
 	define("USERNAME","root");
  	define("PASSWORD","senha");
 	define("DATABASE","maurinsoftdb");
