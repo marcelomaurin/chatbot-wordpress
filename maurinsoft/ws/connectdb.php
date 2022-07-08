@@ -1,7 +1,7 @@
 <?php
 	define("HOSTNAME","192.168.0.213");
 	define("USERNAME","root");
- 	define("PASSWORD","226468");
+ 	define("PASSWORD","senha");
 	define("DATABASE","maurinsoftdb");
 	define("GUID","32d863cf-d225-44bb-9979-778c4df6a79e");
 
