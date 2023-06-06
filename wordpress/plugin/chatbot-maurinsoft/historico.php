@@ -1,6 +1,6 @@
 <h1>Historico</h1>
 <? *** Controler *** ?>
-<script src="/wp-content/plugins/maurinsoft/js/ctlr_historico.js"></script>
+<script src="/wp-content/plugins/chatbot-maurinsoft/js/ctlr_historico.js"></script>
 <div ng-app="ctrl_historico" ng-controller="cntrl" >
    <div class="jumbotron">
 		<h1>Histórico de Pesquisa</h1>							
