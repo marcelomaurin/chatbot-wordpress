@@ -31,20 +31,49 @@ wp_enqueue_style('style','/wp-content/plugins/maurinsoft/css/maurinsoft.css');
 add_shortcode('chatbot', 'funcchatbot' );
 
 
+// Cria as tabelas quando o plugin for ativado
+register_activation_hook( __FILE__, 'chat_criar_tabelas' );
 
 
-function maurinsoft_admin_menu() {
+function chat_criar_tabelas() {
+    global $wpdb;
+
+    // Cria a tabela chatjobs
+    $table_name1 = $wpdb->prefix . 'chatjobs';
+    $charset_collate = $wpdb->get_charset_collate();
+    $sql1 = "CREATE TABLE $table_name1 (
+        idjob mediumint(9) NOT NULL AUTO_INCREMENT,
+        telefone varchar(30) NOT NULL,
+        mensagem varchar(50) NOT NULL,
+        status TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+        PRIMARY KEY (idjob)
+    ) $charset_collate;";
+    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+    dbDelta( $sql1 );
+
+    // Cria a tabela chathistorico
+    $table_name2 = $wpdb->prefix . 'chathistorico';
+    $sql2 = "CREATE TABLE $table_name2 (
+        idhistorico mediumint(9) NOT NULL AUTO_INCREMENT,
+        pergunta varchar(500) NOT NULL,
+        lastdt datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        PRIMARY KEY (idhistorico)
+    ) $charset_collate;";
+    dbDelta( $sql2 );
+
+}
+
+function chat_admin_menu() {
 	add_filter('template_include', 'my_plugin_templates');
-	add_action( 'admin_enqueue_scripts', 'register_comlink_plugin_scripts' );
 	add_action( 'admin_enqueue_scripts', 'load_maurinsoft_plugin_scripts' );
 	add_menu_page(
 		__( 'Adm Maurinsoft', 'my-textdomain' ), 
-		__( 'Maurinsoft', 'my-textdomain' ),
+		__( 'ChatBot', 'my-textdomain' ),
 		'manage_options', 
 		'maurinsoft-options',
 		'wps_theme_func_hello',
 		'dashicons-schedule',
-        3	
+                3
 		);
 
   add_submenu_page( 'maurinsoft-options', 'Chatbot - Teste', 'Teste do chatbot', 'manage_options', 'theme-op-faq', 'wps_theme_func_chatbot');
@@ -118,7 +147,7 @@ function wps_theme_func_boperacao(){
 
 }
 
-add_action( 'admin_menu', 'maurinsoft_admin_menu' );
+add_action( 'admin_menu', 'chat_admin_menu' );
 add_action('wp_footer','maurinsoft_rodape'); /*informação adicional do rodape*/
 
 
