@@ -61,6 +61,19 @@ function chat_criar_tabelas() {
     ) $charset_collate;";
     dbDelta( $sql2 );
 
+     // Cria a tabela chatleitores
+    $table_name3 = $wpdb->prefix . 'chatleitores';
+    $charset_collate = $wpdb->get_charset_collate();
+    $sql3 = "CREATE TABLE $table_name3 (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        nome varchar(50) NOT NULL,
+        token varchar(50) NOT NULL,
+        status TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+        PRIMARY KEY (id)
+    ) $charset_collate;";
+    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+    dbDelta( $sql3 );
+
 }
 
 function chat_admin_menu() {
@@ -72,6 +85,7 @@ function chat_admin_menu() {
 
   add_submenu_page( 'chat-options', 'Chatbot - Simulação', 'Simulação do chatbot', 'manage_options', 'theme-op-faq', 'wps_theme_func_chatbot');
   add_submenu_page( 'chat-options', 'Chatbot - Base Pergunta', 'Base Perguntas', 'manage_options', 'theme-op-settings', 'chat_basepergunta');
+  add_submenu_page( 'chat-options', 'Chatbot - Dispositivos', 'Tokens',          'manage_options', 'chat_dispositivos_page', 'chat_dispositivos_page' );
   add_submenu_page( 'chat-options', 'Chatbot - Histórico Pergunta', 'Histórico', 'manage_options', 'chat_hperg', 'chat_historico');
   add_submenu_page( 'chat-options', 'Chatbot - Base Resposta', 'Base de Resposta', 'manage_options', 'chat_bresposta', 'wps_theme_func_bresposta');
   add_submenu_page( 'chat-options', 'Chatbot - Associação P&R', 'Associação P&R', 'manage_options', 'chat_presp', 'wps_theme_func_pr');
@@ -94,6 +108,52 @@ function wps_theme_func_hello(){
 	include ("wellcome.php");
 }
 
+
+function chat_admin_page() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'chatleitores';
+
+    // Processa a ação de adicionar um novo registro
+    if (isset($_POST['action']) && $_POST['action'] == 'add') {
+        $nome = sanitize_text_field($_POST['nome']);
+        $token = sanitize_text_field($_POST['token']);
+        $status = intval($_POST['status']);
+        $wpdb->insert($table_name, compact('nome', 'token', 'status'));
+    }
+
+    // Iniciar a saída do HTML
+    ob_start();
+    ?>
+    <div class="wrap">
+        <h2>Cadastrar Leitor</h2>
+        <form method="post">
+            <input type="hidden" name="action" value="add">
+            <table>
+                <tr>
+                    <td><label for="nome">Nome:</label></td>
+                    <td><input type="text" name="nome" required></td>
+                </tr>
+                <tr>
+                    <td><label for="token">Token:</label></td>
+                    <td><input type="text" name="token" required></td>
+                </tr>
+                <tr>
+                    <td><label for="status">Status:</label></td>
+                    <td><input type="checkbox" name="status" value="1"></td>
+                </tr>
+                <tr>
+                    <td colspan="2"><input type="submit" value="Adicionar"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <?php
+    // Encerrar a saída do HTML
+    echo ob_get_clean();
+}
+
+
+
 function wps_theme_func_chatbot(){
 ?>
     <h1><?php esc_html_e( 'Chat - Simulador ', 'chat-plugin-textdomain' ); ?></h1>
@@ -111,6 +171,33 @@ function chat_basepergunta() {
 <?php
 wp_enqueue_script('bperguntaCtrl','/wp-content/plugins/chatbot-maurinsoft/js/ctlr_bpergunta.js');
 include "bpergunta.php";
+}
+
+function chat_dispositivos_page() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'chatleitores';
+    $leitores = $wpdb->get_results("SELECT * FROM $table_name", ARRAY_A);
+
+    // Iniciar a saída do HTML
+    ob_start();
+    ?>
+    <div class="wrap">
+        <h1>Tokens</h1>
+        <div class="geiser-dispositivos-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); grid-gap: 1em;">
+            <?php foreach ($leitores as $leitor): ?>
+                <div class="geiser-dispositivo-card" style="padding: 1em; border: 1px solid #ccc; border-radius: 4px; background-color: #f9f9f9;">
+                    <h2 style="margin-top: 0;"><?php echo esc_html($leitor['nome']); ?></h2>
+                    <p><strong>ID:</strong> <?php echo intval($leitor['id']); ?></p>
+                    <p><strong>Token:</strong> <?php echo esc_html($leitor['token']); ?></p>
+                    <p><strong>Status:</strong> <?php echo intval($leitor['status']) ? 'Ativo' : 'Inativo'; ?></p>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <?php
+    // Imprimir a saída do HTML
+    echo ob_get_clean();
+    chat_admin_page();
 }
 
 function chat_historico(){
@@ -234,6 +321,13 @@ function registrar_chat_rota_personalizada() {
   ]);
 }
 
+function registrar_chat_rota2_personalizada() {
+  register_rest_route('chat/v1', '/registro.php', [
+    'methods' => 'POST',
+    'callback' => 'chat_reg_callback',
+  ]);
+}
+
 function chat_run_callback(WP_REST_Request $request)
 {
 
@@ -282,12 +376,7 @@ function chat_lst_callback(WP_REST_Request $request) {
 
 
 
-function registrar_chat_rota2_personalizada() {
-  register_rest_route('chat/v1', '/registro.php', [
-    'methods' => 'POST',
-    'callback' => 'chat_reg_callback',
-  ]);
-}
+
 
 function chat_reg_callback(WP_REST_Request $request) {
     global $wpdb;
