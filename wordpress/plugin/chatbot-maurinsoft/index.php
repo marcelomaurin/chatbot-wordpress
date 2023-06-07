@@ -109,7 +109,8 @@ function chat_basepergunta() {
     <h1><?php esc_html_e( 'Chat - Base Pergunta', 'chat-plugin-textdomain' ); ?></h1>
 
 <?php
-include "pagina.php";
+wp_enqueue_script('bperguntaCtrl','/wp-content/plugins/chatbot-maurinsoft/js/ctlr_bpergunta.js');
+include "bpergunta.php";
 }
 
 function chat_historico(){
@@ -126,8 +127,9 @@ function wps_theme_func_bresposta(){
     <h1><?php esc_html_e( 'Chat - Base Resposta', 'chat-plugin-textdomain' ); ?></h1>
 
 <?php
-        echo '<div class="wrap"><div id="icon-options-general" class="icon32"><br></div>';
-	include ("bresposta.php");
+     wp_enqueue_script('brespostaCtrl','/wp-content/plugins/chatbot-maurinsoft/js/ctlr_bresposta.js');
+     echo '<div class="wrap"><div id="icon-options-general" class="icon32"><br></div>';
+     include ("bresposta.php");
 }
 
 function wps_theme_func_pr(){
@@ -141,7 +143,8 @@ function wps_theme_func_pr(){
 
 function wps_theme_func_boperacao(){
     ?>
-    <h1><?php esc_html_e( 'Chat - Manager', 'chat-plugin-textdomain' ); ?></h1>
+    wp_enqueue_script('boperacaoCtrl','/wp-content/plugins/chatbot-maurinsoft/js/ctlr_boperacao.js');
+    <h1><?php esc_html_e( 'Chat - Base Operacao', 'chat-plugin-textdomain' ); ?></h1>
     <?php
     echo '<div class="wrap"><div id="icon-options-general" class="icon32"><br></div>';
     include ("boperacao.php");

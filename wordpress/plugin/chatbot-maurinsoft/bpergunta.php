@@ -1,6 +1,6 @@
 <html ng-app="App" LANG="PT-BR">
 
-<body ng-controller="boperacaoCtrl">
+<body ng-controller="bperguntaCtrl">
 
 
 
@@ -17,16 +17,11 @@
 </div>
 
 <div class="jumbotron">
-	<h1>Base de Operação</h1>							
+	<h1>Base de Perguntas</h1>							
 	<p>Para maiores informações marcelomaurinmartins@gmail.com</p>
 </div>
 
-<div class="row container ">
-	<div class="row">
-       <h3>Retorno</h3>
-	   {{msg}}
-	</div>
-</div>
+
 
 <div class="row container borda_container" class="col-md-12">
 	<div class="row">
@@ -39,18 +34,18 @@
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th>Idbpergunta</th>
+					<th>Idbperguntas</th>
 					<th>Pergunta</th>					
 					<th>Deletar</th>
 					
 											
 				<tr>
-			</thead>
+			</thead> 
 			<tbody>
-				<tr ng-repeat="dados in data.rs">
-					<td>{{dados.idbpergunta}}</td>
+				<tr ng-repeat="dados in data">
+					<td>{{dados.idbperguntas}}</td>
 					<td>{{dados.pergunta}}</td>											
-					<td><button class="btn btn-primary" ng-click="deleteJobs(dados.idbpergunta);">Delete</button></td>
+					<td><button class="btn btn-primary" ng-click="deleteBPergunta(dados.idbperguntas);">Delete</button></td>
 					
 				</tr>
 			</tbody>
@@ -59,6 +54,13 @@
 				
 	</div>	
 	<div class="row">
+	</div>
+</div>
+
+<div class="row container ">
+	<div class="row">
+       <h3>Retorno</h3>
+	   {{msg}}
 	</div>
 </div>
 
